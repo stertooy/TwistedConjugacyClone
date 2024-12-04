@@ -1,6 +1,6 @@
 SetPackageInfo( rec(
 
-PackageName := "TwistedConjugacy",
+PackageName := "TwistedConjugacy-clone",
 Subtitle := "Computation with twisted conjugacy classes",
 Version := "2.4.0",
 Date := "2024-11-23",
