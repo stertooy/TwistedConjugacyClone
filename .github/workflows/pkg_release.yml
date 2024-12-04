@@ -1,6 +1,7 @@
 name: pkg_release
 on:
   - workflow_dispatch
+permissions: write-all
 
 jobs:
   # The CI test job
