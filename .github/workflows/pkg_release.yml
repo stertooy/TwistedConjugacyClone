@@ -7,7 +7,6 @@ jobs:
   test:
     name: pkg_release
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +18,7 @@ jobs:
           GAPBRANCH: stable-4.13
       - uses: gap-actions/build-pkg@v1
       - uses: stertooy/ReleaseTools@v0.0.4
+        continue-on-error: true
       - shell: bash
         run: cat /home/runner/work/TwistedConjugacy-clone/TwistedConjugacy-clone/tmp/gap-error.log
       
