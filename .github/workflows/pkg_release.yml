@@ -16,7 +16,7 @@ jobs:
           python-version: "3.12"
       - uses: gap-actions/setup-gap@v2
         with:
-          GAPBRANCH: stable-4.13
+          GAPBRANCH: master
       - uses: gap-actions/build-pkg@v1
       - uses: stertooy/ReleaseTools@v0.0.10
         env:
