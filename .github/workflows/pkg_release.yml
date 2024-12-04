@@ -20,7 +20,7 @@ jobs:
       - uses: stertooy/ReleaseTools@v0.0.4
         continue-on-error: true
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - shell: bash
         run: cat /home/runner/work/TwistedConjugacy-clone/TwistedConjugacy-clone/tmp/gap-error.log
       
