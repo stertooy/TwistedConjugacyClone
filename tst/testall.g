@@ -1,10 +1,10 @@
-LoadPackage( "TwistedConjugacy-clone" );
-ASSERT@TwistedConjugacy-clone := true;
+LoadPackage( "TwistedConjugacyClone" );
+ASSERT@TwistedConjugacyClone := true;
 
 pass := TestDirectory(
     [
-        DirectoriesPackageLibrary( "TwistedConjugacy-clone", "tst/pcgroup" ),
-        DirectoriesPackageLibrary( "TwistedConjugacy-clone", "tst/permgroup" )
+        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/pcgroup" ),
+        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/permgroup" )
     ],
     rec(
         exitGAP := false,
@@ -15,7 +15,7 @@ pass := TestDirectory(
 
 if LoadPackage( "Polycyclic" ) then
     pass := pass and TestDirectory(
-        DirectoriesPackageLibrary( "TwistedConjugacy-clone", "tst/pcpgroup" ),
+        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/pcpgroup" ),
         rec(
             exitGAP := false,
             showProgress := true,
