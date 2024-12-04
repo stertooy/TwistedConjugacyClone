@@ -1,5 +1,5 @@
-ASSERT@TwistedConjugacy-clone := true;
-pkgName := "TwistedConjugacy-clone";
+ASSERT@TwistedConjugacyClone := true;
+pkgName := "TwistedConjugacyClone";
 
 tst := DirectoriesPackageLibrary( pkgName, "tst" )[1];
 info := PackageInfo( pkgName )[1];
