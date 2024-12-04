@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_preface">
+<Heading>Preface</Heading>
+
+ Let <Math>G, H</Math> be groups and <Math>\varphi,\psi\colon H \to G</Math> group homomorphisms. Then the pair <Math>(\varphi,\psi)</Math> induces a (right) group action on <Math>G</Math> given by
+ <Display>G \times H \to G\colon (g,h) \mapsto g \cdot h = \psi(h)^{-1} g\varphi(h).</Display>
+ This group action is called <Emph><Math>(\varphi,\psi)</Math>-twisted conjugation</Emph>, and induces an equivalence relation <Math>\sim_{\varphi,\psi}</Math> on <Math>G</Math>:
+ <Display>g_1 \sim_{\varphi,\psi} g_2 \iff \exists h \in H: g_1 \cdot h = g2.</Display>
+ The equivalence classes (i.e. the orbits of the action) are called <Emph>Reidemeister classes</Emph> and the number of Reidemeister classes is called the <Emph>Reidemeister number</Emph> <Math>R(\varphi,\psi)</Math> of the pair <Math>(\varphi,\psi)</Math>.
+ The stabiliser of the identity <Math>1_G</Math> for this action is the <Emph>coincidence group</Emph> <Math>\operatorname{Coin}(\varphi, \psi )</Math>, i.e. the subgroup of <Math>H</Math> given by
+ <Display>\operatorname{Coin}(\varphi,\psi) := \{\, h \in H \mid \varphi(h) = \psi(h) \,\}.</Display>
+ <P/>
+ The <B>TwistedConjugacy</B> package provides methods to calculate Reidemeister classes, Reidemeister numbers and coincidence groups of pairs of group homomorphisms.
+ These methods are implemented for finite groups and polycyclically presented groups. If <Math>H</Math> and <Math>G</Math> are both infinite polycyclically presented groups, then
+ some methods in this package are only guaranteed to produce a result if either <Math>G = H</Math> or <Math>G</Math> is nilpotent-by-finite.
+ Otherwise, these methods may potentially throw an error: "<C>Error, no method found!</C>"
+ <P/>
+ Bugs in this package, in <B>GAP</B> or any other package used directly or indirectly, may cause functions from this package to produce errors or even wrong results.
+ You can set the variable <C>ASSERT&#64;TwistedConjugacy</C> to <K>true</K>, which will cause certain functions to verify the correctness of their output.
+ This should make results more (but not completely!) reliable, at the cost of some performance.
+<P/>
+ When using this package with PcpGroups, you can do the same for <B>Polycyclic</B>'s variables <C>CHECK_CENT&#64;Polycyclic</C>, <C>CHECK_IGS&#64;Polycyclic</C> and <C>CHECK_INTSTAB&#64;Polycyclic</C>.
+</Chapter>
+

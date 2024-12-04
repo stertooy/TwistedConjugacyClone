@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "TwistedConjugacy"
+authors:
+- family-names: "Tertooy"
+  given-names: "Sam"
+preferred-citation:
+  type: software
+  title: "TwistedConjugacy"
+  authors:
+    - family-names: "Tertooy"
+      given-names: "Sam"
+  version: 2.3.0
+  notes: "GAP Package"
+  month: 9
+  year: 2024
+  url: "https://stertooy.github.io/TwistedConjugacy/"
