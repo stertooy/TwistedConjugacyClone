@@ -18,7 +18,7 @@ jobs:
         with:
           GAPBRANCH: stable-4.13
       - uses: gap-actions/build-pkg@v1
-      - uses: stertooy/ReleaseTools@v0.0.7
+      - uses: stertooy/ReleaseTools@v0.0.8
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - shell: bash
