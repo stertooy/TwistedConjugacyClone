@@ -1,5 +1,5 @@
 LoadPackage( "TwistedConjugacy-clone" );
-ASSERT@TwistedConjugacy := true;
+ASSERT@TwistedConjugacy-clone := true;
 
 pass := TestDirectory(
     [
