@@ -1,0 +1,15 @@
+name: Update Website
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: gap-actions/setup-gap@v2
+      - uses: gap-actions/update-gh-pages@v1
