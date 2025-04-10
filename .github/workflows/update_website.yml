@@ -12,4 +12,4 @@ jobs:
 
     steps:
       - uses: gap-actions/setup-gap@v2
-      - uses: gap-actions/update-gh-pages@v1
+      - uses: gap-actions/update-gh-pages@main
