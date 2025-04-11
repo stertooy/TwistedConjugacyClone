@@ -16,6 +16,8 @@ jobs:
           GAPBRANCH: master
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
+        with:
+          use-latex: true
       - uses: stertooy/release-pkg@main
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
