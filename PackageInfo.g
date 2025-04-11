@@ -42,7 +42,7 @@ ArchiveURL      := Concatenation(
     "/", ~.PackageName, "-", ~.Version
 ),
 
-ArchiveFormats := ".tar.gz .zip",
+ArchiveFormats := ".tar.gz .zip, .tar.bz2",
 
 AbstractHTML := """
     The TwistedConjugacy package provides methods to calculate Reidemeister
