@@ -19,6 +19,4 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v1
         with:
           use-latex: true
-      - uses: stertooy/release-pkg@main
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: stertooy/release-pkg@experimental
