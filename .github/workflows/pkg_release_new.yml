@@ -19,7 +19,7 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v1
         with:
           use-latex: true
-      - uses: stertooy/release-pkg@experimental
+      - uses: stertooy/release-pkg@read-json-etc
       - uses: actions/upload-artifact@v4
         with:
           name: release
