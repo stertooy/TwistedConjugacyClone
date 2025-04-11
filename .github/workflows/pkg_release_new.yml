@@ -14,6 +14,7 @@ jobs:
       - uses: gap-actions/setup-gap@v2
         with:
           GAPBRANCH: master
+          GAP_PKGS_TO_BUILD: io profiling json crypting
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
         with:
