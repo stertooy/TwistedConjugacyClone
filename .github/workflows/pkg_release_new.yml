@@ -25,6 +25,7 @@ jobs:
           name: release
           path: |
             *.tar.gz
-            *.tar.bz
+            *.tar.bz2
+            *.zip
             manual.pdf
             package-info.json
