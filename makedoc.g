@@ -38,6 +38,24 @@ AutoDoc( rec(
     )
 ));
 
+AutoDoc( rec(
+    autodoc := rec(
+        files := [ "doc2/manual.gd" ]
+    ),
+    scaffold := rec(
+        bib := "manual.bib"
+    ),
+    gapdoc := rec(
+        main := "manual.xml",
+        LaTeXOptions := rec(
+            LateExtraPreamble := "\\usepackage{amsmath}"
+        )
+    ),
+    extract_examples := rec(
+        units := "Chapter"
+    )
+));
+
 if not ValidatePackageInfo( "PackageInfo.g" ) then
     Info( InfoGAPDoc, 1, "#I One or more files could not be created.\n" );
     ForceQuitGap( 1 );
