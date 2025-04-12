@@ -42,9 +42,6 @@ AutoDoc( rec(
     autodoc := rec(
         files := [ "doc2/manual.gd" ]
     ),
-    scaffold := rec(
-        bib := "manual.bib"
-    ),
     gapdoc := rec(
         main := "manual.xml",
         LaTeXOptions := rec(
