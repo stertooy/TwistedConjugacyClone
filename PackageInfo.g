@@ -52,14 +52,24 @@ AbstractHTML := """
     groups and polycyclically presented groups.
 """,
 
-PackageDoc := rec(
-    BookName  := ~.PackageName,
-    ArchiveURLSubset := ["doc"],
-    HTMLStart := "doc/chap0_mj.html",
-    PDFFile   := "doc/manual.pdf",
-    SixFile   := "doc/manual.six",
-    LongTitle := ~.Subtitle,
-),
+PackageDoc := [
+    rec(
+        BookName  := ~.PackageName,
+        ArchiveURLSubset := ["doc"],
+        HTMLStart := "doc/chap0_mj.html",
+        PDFFile   := "doc/manual.pdf",
+        SixFile   := "doc/manual.six",
+        LongTitle := ~.Subtitle,
+    ),
+    rec(
+        BookName  := ~.PackageName,
+        ArchiveURLSubset := ["doc2"],
+        HTMLStart := "doc2/chap0_mj.html",
+        PDFFile   := "doc2/manual.pdf",
+        SixFile   := "doc2/manual.six",
+        LongTitle := ~.Subtitle,
+    ),
+],
 
 Dependencies := rec(
     GAP := ">= 4.13",
