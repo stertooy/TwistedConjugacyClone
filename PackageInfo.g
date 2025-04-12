@@ -62,7 +62,7 @@ PackageDoc := [
         LongTitle := ~.Subtitle,
     ),
     rec(
-        BookName  := ~.PackageName,
+        BookName  := Concatenation( ~.PackageName, "-2" ),
         ArchiveURLSubset := ["doc2"],
         HTMLStart := "doc2/chap0_mj.html",
         PDFFile   := "doc2/manual.pdf",
