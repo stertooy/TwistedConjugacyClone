@@ -23,7 +23,7 @@ Persons := [
         """,
         Place := "Kortrijk, Belgium",
         Institution := "KU Leuven Kulak Kortrijk Campus",
-    ),
+    )
 ],
 
 SourceRepository := rec(
