@@ -1,4 +1,4 @@
-name: pkg_release_new
+name: Release Package
 on:
   - workflow_dispatch
 permissions: write-all
