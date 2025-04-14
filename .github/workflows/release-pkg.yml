@@ -20,3 +20,5 @@ jobs:
         with:
           use-latex: true
       - uses: stertooy/release-pkg@experimental
+        with:
+          dry-run: true
