@@ -1,0 +1,110 @@
+name: CI
+on:
+  - push
+  - pull_request
+  - workflow_dispatch
+
+jobs:
+
+  test:
+    name: "Test on GAP-${{ matrix.gap-version }}"
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name 
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - gap-version: "master"
+            coverage: true
+          - gap-version: "4.14.0"
+
+    container:
+      image: ghcr.io/stertooy/gda-image:${{ matrix.gap-version }}-slim
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Run package tests with minimal packages"
+        uses: sTertooy/gda-test-pkg@v1
+        with:
+          GAP_FLAGS: "-A"
+          COVERAGE: ${{ matrix.coverage }}
+          ONLY_NEEDED: true
+          ERROR_ON_WARNING: true
+
+      - name: "Run package tests with default packages"
+        uses: sTertooy/gda-test-pkg@v1
+        with:
+          COVERAGE: ${{ matrix.coverage }}
+          ERROR_ON_WARNING: true
+            
+      - name: "Process coverage"
+        uses: stertooy/gda-coverage@v1
+        if: ${{ matrix.coverage }}
+
+      - name: "Upload coverage"
+        uses: codecov/codecov-action@v5
+        if: ${{ matrix.coverage }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+
+  validation:
+    name: "Validate manual & metadata"
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name 
+
+    container:
+      image: ghcr.io/stertooy/gda-image:tex-slim
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Validate CITATION.cff"
+        uses: citation-file-format/cffconvert-github-action@2.0.0
+        with:
+          args: "--validate"
+
+      - name: "Build manual"
+        uses: stertooy/gda-manual@v1
+
+      - name: "Validate PackageInfo.g"
+        shell: bash
+        run: gap -c "QuitGap(ValidatePackageInfo(\"PackageInfo.g\"));"
+
+      - name: "Upload manual"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Manual"
+          path: ./doc/manual.pdf
+          if-no-files-found: error
+
+  lint:
+    name: "Test code quality"
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name 
+
+    steps:
+    
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v5
+
+      - name: Install gaplint
+        run: pip install gaplint
+
+      - name: Run linter
+        run: |
+          shopt -s globstar
+          FOLDERS="lib/** **/*.g"
+          gaplint $FOLDERS
+          # Also check for double semicolon
+          blah=$(egrep -ir --include=*.{g,gi,gd} ";;" $FOLDERS | tee /dev/stderr)
+          if [[ ! $blah ]]; then exit 0; else exit 1; fi
