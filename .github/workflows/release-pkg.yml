@@ -2,6 +2,12 @@ name: Release Package
 on:
   - workflow_dispatch
 permissions: write-all
+inputs:
+  dry-run:
+    name: dry-run
+    type: boolean
+    required: false
+    default: true
 
 jobs:
   # The CI test job
