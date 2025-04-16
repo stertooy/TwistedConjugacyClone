@@ -3,10 +3,10 @@ on:
   workflow_dispatch:
     inputs:
       dry-run:
-        name: dry-run
+        description: "set to true to prevent actually making a release"
         type: boolean
         required: false
-        default: true
+        default: false
 
 permissions: write-all
 
@@ -28,4 +28,4 @@ jobs:
           use-latex: true
       - uses: stertooy/release-pkg@experimental
         with:
-          dry-run: "${{ inputs.dry-run }}"
+          dry-run: ${{ inputs.dry-run }}
