@@ -28,4 +28,4 @@ jobs:
           use-latex: true
       - uses: stertooy/release-pkg@experimental
         with:
-          dry-run: true
+          dry-run: ${{ inputs.dry-run }}
