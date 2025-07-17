@@ -11,4 +11,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: gap-actions/setup-gap@v2
       - uses: stertooy/update-gh-pages@main
