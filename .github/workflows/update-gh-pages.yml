@@ -1,0 +1,14 @@
+name: Update GH-pages
+on:
+  workflow_dispatch:
+  
+permissions: write-all
+
+jobs:
+  # The CI test job
+  update:
+    name: Update GH pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: stertooy/update-gh-pages@main
