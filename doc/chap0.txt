@@ -6,7 +6,7 @@
                   [1X Computation with twisted conjugacy classes [101X
   
   
-                                     2.4.9
+                                     2.4.8
   
   
                                  12 April 2025

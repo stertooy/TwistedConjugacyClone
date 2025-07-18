@@ -2,7 +2,7 @@ SetPackageInfo( rec(
 
 PackageName := "TwistedConjugacyClone",
 Subtitle := "Computation with twisted conjugacy classes",
-Version := "2.4.9",
+Version := "2.4.8",
 Date := "2025-04-12",
 License := "GPL-2.0-or-later",
 
@@ -65,8 +65,8 @@ PackageDoc := [
         BookName  := Concatenation( ~.PackageName, "-2" ),
         ArchiveURLSubset := ["doc2"],
         HTMLStart := "doc2/chap0_mj.html",
-        PDFFile   := "doc2/manual2.pdf",
-        SixFile   := "doc2/manual2.six",
+        PDFFile   := "doc2/manual.pdf",
+        SixFile   := "doc2/manual.six",
         LongTitle := ~.Subtitle,
     ),
 ],

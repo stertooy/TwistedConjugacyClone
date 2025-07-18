@@ -1,5 +1,5 @@
 name: TwistedConjugacyClone
-version: "2.4.9"
+version: "2.4.8"
 license: "GPL-2.0-or-later"
 date: 2025-04-12
 description: |
@@ -21,11 +21,11 @@ packageinfo: https://stertooy.github.io/TwistedConjugacyClone/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/stertooy/TwistedConjugacyClone/releases/download/v2.4.9/TwistedConjugacyClone-2.4.9.tar.gz
+      url: https://github.com/stertooy/TwistedConjugacyClone/releases/download/v2.4.8/TwistedConjugacyClone-2.4.8.tar.gz
     - name: .zip,
-      url: https://github.com/stertooy/TwistedConjugacyClone/releases/download/v2.4.9/TwistedConjugacyClone-2.4.9.zip,
+      url: https://github.com/stertooy/TwistedConjugacyClone/releases/download/v2.4.8/TwistedConjugacyClone-2.4.8.zip,
     - name: .tar.bz2
-      url: https://github.com/stertooy/TwistedConjugacyClone/releases/download/v2.4.9/TwistedConjugacyClone-2.4.9.tar.bz2
+      url: https://github.com/stertooy/TwistedConjugacyClone/releases/download/v2.4.8/TwistedConjugacyClone-2.4.8.tar.bz2
 
 abstract: |
     
@@ -43,7 +43,7 @@ citeas: |
     <p class='BibEntry'>
     [<span class='BibKey'>Ter12</span>]   <b class='BibAuthor'>Tertooy, S.</b>,
      <i class='BibTitle'>TwistedConjugacyClone, Computation with twisted conjugacy classes,
-             Version 2.4.9</i>
+             Version 2.4.8</i>
      (<span class='BibYear'>4-12</span>)<br />
     (<span class='BibNote'>GAP package</span>),
     <span class='BibHowpublished'><a href="https://stertooy.github.io/TwistedConjugacyClone">https://stertooy.github.io/TwistedConjugacyClone</a></span>.
@@ -54,7 +54,7 @@ bibtex: |
     @misc{ TwistedConjugacyClone,
       author =           {Tertooy, S.},
       title =            {{TwistedConjugacyClone},   {Computation  with  twisted
-                          conjugacy classes}, {V}ersion 2.4.9},
+                          conjugacy classes}, {V}ersion 2.4.8},
       month =            {5\texttt{\symbol{45}}},
       year =             {4\texttt{\symbol{45}}12},
       note =             {GAP package},
