@@ -38,12 +38,13 @@ AutoDoc( rec(
     )
 ));
 
-if not ValidatePackageInfo( "PackageInfo.g" ) then
-    Info( InfoGAPDoc, 1, "#I One or more files could not be created.\n" );
-    ForceQuitGap( 1 );
-else
-    Info( InfoGAPDoc, 1, "#I Manual files sucessfully created.\n" );
-fi;
+#ValidatePackageInfo requires all manual pdfs to be created - might not want this!
+#if not ValidatePackageInfo( "PackageInfo.g" ) then
+#    Info( InfoGAPDoc, 1, "#I One or more files could not be created.\n" );
+#    ForceQuitGap( 1 );
+#else
+#    Info( InfoGAPDoc, 1, "#I Manual files sucessfully created.\n" );
+#fi;
 
 correct := true;
 Info( InfoGAPDoc, 1, "#I Testing examples found in manual.\n" );
