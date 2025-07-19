@@ -20,11 +20,11 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - name: "Setup GAP"
+      - name: "Build docs"
         uses: gap-actions/build-pkg-docs@v1.3.2
         
       - name: "Release GAP Package"
-        uses: stertooy/release-pkg@read-json-etc
+        uses: stertooy/release-pkg@fix
 
       - name: "Update gh-pages"
         uses: stertooy/update-gh-pages@first-attempt
