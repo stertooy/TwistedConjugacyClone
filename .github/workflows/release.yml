@@ -36,10 +36,11 @@ jobs:
       image: ghcr.io/stertooy/gda-image:master-min
       
     steps:
-      - name: "Fix git on container"
+      - name: "Fix container..."
         shell: bash
         run: |
           git config --global --add safe.directory $PWD
+          sudo apt-get intall wget
     
       - name: "Checkout"
         uses: actions/checkout@v4
