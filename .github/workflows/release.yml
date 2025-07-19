@@ -29,5 +29,5 @@ jobs:
         uses: stertooy/release-pkg@fix
 
       - name: "Update gh-pages"
-        uses: stertooy/update-gh-pages@first-attempt
+        uses: stertooy/update-gh-pages@fix
         
