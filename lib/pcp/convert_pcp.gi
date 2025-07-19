@@ -22,7 +22,7 @@ InstallMethod(
             IsFinite( G )
         ) then TryNextMethod(); fi;
         iso := IsomorphismPcGroup( G );
-        return CoincidenceGroup2( hom1*iso, hom2*iso );
+        return CoincidenceGroup2( hom1 * iso, hom2 * iso );
     end
 );
 
@@ -39,10 +39,9 @@ InstallMethod(
             IsFinite( H )
         ) then TryNextMethod(); fi;
         inv := InverseGeneralMapping( IsomorphismPcGroup( H ) );
-        return ImagesSet( inv, CoincidenceGroup2( inv*hom1, inv*hom2 ) );
+        return ImagesSet( inv, CoincidenceGroup2( inv * hom1, inv * hom2 ) );
     end
 );
-
 
 ###############################################################################
 ##
@@ -60,9 +59,9 @@ InstallMethod(
 InstallMethod(
     RepresentativesReidemeisterClassesOp,
     "turn finite PcpGroup range into PcGroup",
-    [ IsGroupHomomorphism, IsGroupHomomorphism ],
+    [ IsGroupHomomorphism, IsGroupHomomorphism, IsGroup, IsBool ],
     101,
-    function( hom1, hom2 )
+    function( hom1, hom2, N, one )
         local G, iso, Rcl;
         G := Range( hom1 );
         if not (
@@ -70,7 +69,13 @@ InstallMethod(
             IsFinite( G )
         ) then TryNextMethod(); fi;
         iso := IsomorphismPcGroup( G );
-        Rcl := RepresentativesReidemeisterClassesOp( hom1*iso, hom2*iso );
+        Rcl := RepresentativesReidemeisterClassesOp(
+            hom1 * iso, hom2 * iso,
+            ImagesSet( iso, N ), one
+        );
+        if Rcl = fail then
+            return fail;
+        fi;
         return List( Rcl, g -> PreImagesRepresentativeNC( iso, g ) );
     end
 );
@@ -78,20 +83,21 @@ InstallMethod(
 InstallMethod(
     RepresentativesReidemeisterClassesOp,
     "turn finite PcpGroup source into PcGroup",
-    [ IsGroupHomomorphism, IsGroupHomomorphism ],
+    [ IsGroupHomomorphism, IsGroupHomomorphism, IsGroup, IsBool ],
     100,
-    function( hom1, hom2 )
-        local H, inv, Rcl;
+    function( hom1, hom2, N, one )
+        local H, inv;
         H := Source( hom1 );
         if not (
             IsPcpGroup( H ) and
             IsFinite( H )
         ) then TryNextMethod(); fi;
         inv := InverseGeneralMapping( IsomorphismPcGroup( H ) );
-        return RepresentativesReidemeisterClassesOp( inv*hom1, inv*hom2 );
+        return RepresentativesReidemeisterClassesOp(
+            inv * hom1, inv * hom2, N, one
+        );
     end
 );
-
 
 ###############################################################################
 ##
@@ -117,7 +123,7 @@ InstallMethod(
             IsFinite( G )
         ) then TryNextMethod(); fi;
         iso := IsomorphismPcGroup( G );
-        return ReidemeisterNumberOp( hom1*iso, hom2*iso );
+        return ReidemeisterNumberOp( hom1 * iso, hom2 * iso );
     end
 );
 
@@ -134,10 +140,9 @@ InstallMethod(
             IsFinite( H )
         ) then TryNextMethod(); fi;
         inv := InverseGeneralMapping( IsomorphismPcGroup( H ) );
-        return ReidemeisterNumberOp( inv*hom1, inv*hom2 );
+        return ReidemeisterNumberOp( inv * hom1, inv * hom2 );
     end
 );
-
 
 ###############################################################################
 ##
@@ -171,7 +176,7 @@ InstallOtherMethod(
         ) then TryNextMethod(); fi;
         iso := IsomorphismPcGroup( G );
         return RepresentativeTwistedConjugationOp(
-            hom1*iso, hom2*iso,
+            hom1 * iso, hom2 * iso,
             ImagesRepresentative( iso, g )
         );
     end
@@ -191,7 +196,7 @@ InstallOtherMethod(
             IsFinite( H )
         ) then TryNextMethod(); fi;
         inv := InverseGeneralMapping( IsomorphismPcGroup( H ) );
-        h := RepresentativeTwistedConjugationOp( inv*hom1, inv*hom2, g );
+        h := RepresentativeTwistedConjugationOp( inv * hom1, inv * hom2, g );
         if h = fail then
             return fail;
         fi;

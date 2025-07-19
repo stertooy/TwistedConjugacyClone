@@ -1,17 +1,33 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
-title: "TwistedConjugacy"
+message: If you use this software, please cite it as below.
 authors:
-- family-names: "Tertooy"
-  given-names: "Sam"
+  - family-names: Tertooy
+    given-names: Sam
+    email: sam.tertooy@kuleuven.be
+    orcid: https://orcid.org/0000-0002-5750-9153
+    affiliation: KU Leuven, Kulak Kortrijk Campus
+    address: Etienne Sabbelaan 53
+    post-code: 8500
+    city: Kortrijk
+    country: BE
+    website: https://stertooy.github.io/
+title: TwistedConjugacy
+type: software
+abstract: Computation with twisted conjugacy classes.
+version: 3.0.0
+date-released: 2025-07-21
+license: GPL-2.0-or-later
+repository-code: https://github.com/stertooy/TwistedConjugacy/
+url: https://stertooy.github.io/TwistedConjugacy/
+doi: 10.5281/zenodo.14283553
 preferred-citation:
   type: software
-  title: "TwistedConjugacy"
+  title: TwistedConjugacy, Computation with twisted conjugacy classes
   authors:
-    - family-names: "Tertooy"
-      given-names: "Sam"
-  version: 2.3.0
-  notes: "GAP Package"
-  month: 9
-  year: 2024
-  url: "https://stertooy.github.io/TwistedConjugacy/"
+    - family-names: Tertooy
+      given-names: Sam
+  version: 3.0.0
+  notes: GAP package
+  month: 7
+  year: 2025
+  url: https://stertooy.github.io/TwistedConjugacy/

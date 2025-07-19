@@ -1,7 +1,40 @@
 This file describes changes in the GAP package TwistedConjugacy.
 
 
-2.4.0 (2024-11-23)
+3.0.0 (2025-07-21)
+------------------
+
+- Now requires GAP version >= 4.14
+
+- Switched the order of the homomorphisms in the definition of the twisted
+  conjugation action, which is very likely to break scripts relying on older
+  versions of this package
+  
+- Added method for (Representatives)ReidemeisterClasses and ReidemeisterNumber
+  with no restrictions on the homomorphisms or the source and target groups
+- (Representatives)ReidemeisterClasses now accepts a normal subgroup as
+  optional input, and will then only return the (representatives of the)
+  Reidemeister classes that intersect this normal subgroup
+
+- RepresentativeTwistedConjugation and IsTwistedConjugate again accept lists as
+  input, replacing the need for the separate functions
+  RepresentativeTwistedConjugationMultiple and IsTwistedConjugateMultiple
+
+- Added more methods related to double cosets (of PcpGroups)
+
+- Added methods related to group derivations between finite groups and between
+  PcpGroups
+
+- Improved the efficiency of CoincidenceGroup in certain cases
+- Improved the efficiency of CoincidenceReidemeisterSpectrum for non-abelian
+  groups
+  
+- Overhauled the documentation
+- Many smaller changes
+
+
+
+2.4.0 (2024-12-05)
 ------------------
 
 - Added methods for intersections of arbitrary subgroups and cosets in
@@ -18,6 +51,7 @@ This file describes changes in the GAP package TwistedConjugacy.
 - Replaced ToggleSafeMode@TwistedConjugacy by variable ASSERT@TwistedConjugacy
 
 
+
 2.3.0 (2024-09-17)
 ------------------
 
@@ -29,6 +63,7 @@ This file describes changes in the GAP package TwistedConjugacy.
 
 - Added ToggleSafeMode@TwistedConjugacy, to use built-in assertions (including
   those in Polycyclic) to check for any errors.
+
 
 
 2.2.0 (2024-02-13)
@@ -46,6 +81,7 @@ This file describes changes in the GAP package TwistedConjugacy.
 - Added IsNilpotentByFinite and IsPolycyclicByFinite properties
 - Code for infinite groups is now less dependent on the Polycyclic package
   being loaded
+
 
 
 2.1.0 (2023-03-16)
@@ -70,6 +106,7 @@ This file describes changes in the GAP package TwistedConjugacy.
 - CoincidenceGroup can now take 3 or more endomorphisms as argument
 - RepresentativeTwistedConjugation and IsTwistedConjugate can now take lists
   as input, and will try to solve the multiple twisted conjugacy problem
+
 
 
 2.0.0 (2021-05-01)
@@ -127,6 +164,7 @@ This file describes changes in the GAP package TwistedConjugacy.
 - Finite PcpGroups will now automatically be converted to PcGroups
 
 
+
 1.0.1 (2020-06-07)
 ------------------
 
@@ -134,6 +172,7 @@ This file describes changes in the GAP package TwistedConjugacy.
 - Test Suite now has full coverage
 - Some functions in HelpFunctions.gi now have local scope
 - Updated documentation to include examples
+
 
 
 1.0.0 (2020-02-19)

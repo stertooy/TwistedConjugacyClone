@@ -6,4 +6,4 @@ if not IsBound( PreImagesRepresentativeNC ) then
     BindGlobal( "PreImagesRepresentativeNC", PreImagesRepresentative );
 fi;
 
-ReadPackage( "TwistedConjugacyClone", "lib/twistedconjugacy.gd" );
+ReadPackage( "TwistedConjugacy", "lib/twistedconjugacy.gd" );

@@ -1,27 +1,27 @@
-LoadPackage( "TwistedConjugacyClone" );
-ASSERT@TwistedConjugacyClone := true;
+LoadPackage( "TwistedConjugacy" );
+ASSERT@TwistedConjugacy := true;
+testOpts := rec(
+    exitGAP := false,
+    showProgress := true,
+    testOptions := rec( compareFunction := "uptowhitespace" )
+);
 
 pass := TestDirectory(
     [
-        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/pcgroup" ),
-        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/permgroup" )
+        DirectoriesPackageLibrary( "TwistedConjugacy", "tst/pcgroup" ),
+        DirectoriesPackageLibrary( "TwistedConjugacy", "tst/permgroup" )
     ],
-    rec(
-        exitGAP := false,
-        showProgress := true,
-        testOptions := rec( compareFunction := "uptowhitespace" )
-    )
+    testOpts
 );
 
 if LoadPackage( "Polycyclic" ) then
-    pass := pass and TestDirectory(
-        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/pcpgroup" ),
-        rec(
-            exitGAP := false,
-            showProgress := true,
-            testOptions := rec( compareFunction := "uptowhitespace" )
-        )
-    );
+    CHECK_CENT@Polycyclic := true;
+    CHECK_IGS@Polycyclic := true;
+    CHECK_INTSTAB@Polycyclic := true;
+    pass := TestDirectory(
+        DirectoriesPackageLibrary( "TwistedConjugacy", "tst/pcpgroup" ),
+        testOpts
+    ) and pass;
 fi;
 
 ForceQuitGap( pass );

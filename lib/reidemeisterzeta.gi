@@ -12,13 +12,12 @@ RemovePeriodsList@ := function( L )
     local n, i, M;
     n := Length( L );
     for i in DivisorsInt( n ) do
-        M := L{ [ 1..i ] };
-        if L = Concatenation( ListWithIdenticalEntries( n/i, M ) ) then
+        M := L{[ 1 .. i ]};
+        if L = Concatenation( ListWithIdenticalEntries( n / i, M ) ) then
             return M;
         fi;
     od;
 end;
-
 
 ###############################################################################
 ##
@@ -39,25 +38,24 @@ DecomposePeriodicList@ := function( L )
     local n, l, i, per, ei;
     n := Length( L );
     l := ListWithIdenticalEntries( n, 0 );
-    for i in [1..n] do
+    for i in [ 1 .. n ] do
         if n mod i <> 0 then
             if L[i] <> 0 then
                 return fail;
             fi;
             continue;
         fi;
-        l[i] := L[i]/i;
+        l[i] := L[i] / i;
         if not IsInt( l[i] ) then
             return fail;
         fi;
-        per := ListWithIdenticalEntries( i-1, 0 );
+        per := ListWithIdenticalEntries( i - 1, 0 );
         Add( per, i );
-        ei := Concatenation( ListWithIdenticalEntries( n/i, per ) );
-        L := L - l[i]*ei;
+        ei := Concatenation( ListWithIdenticalEntries( n / i, per ) );
+        L := L - l[i] * ei;
     od;
     return l;
 end;
-
 
 ###############################################################################
 ##
@@ -87,7 +85,6 @@ InstallGlobalFunction(
         return ReidemeisterZetaCoefficientsOp( endo1, endo2 );
     end
 );
-
 
 ###############################################################################
 ##
@@ -125,19 +122,20 @@ InstallMethod(
             k := LcmInt( k, Order( RestrictedHomomorphism( endo, G1, G1 ) ) );
             l := Maximum( l, steps );
         od;
-        R := List( [1..k+l], n -> ReidemeisterNumberOp( endo1^n, endo2^n ) );
+        R := List(
+            [ 1 .. k + l ], n -> ReidemeisterNumberOp( endo1 ^ n, endo2 ^ n )
+        );
         R := Concatenation(
-            R{ [1..l] },
-            RemovePeriodsList@( R{ [ 1+l..k+l ] } )
+            R{ [ 1 .. l ] },
+            RemovePeriodsList@( R{[ 1 + l .. k + l ] })
         );
         k := Length( R ) - l;
-        P := List( [1..k], n -> R[ (n-l-1) mod k + 1 + l ] );
-        Q := List( [1..l], n -> R[n] - P[ (n-1) mod k + 1 ] );
+        P := List( [ 1 .. k ], n -> R[ ( n - l - 1 ) mod k + 1 + l ] );
+        Q := List( [ 1 .. l ], n -> R[n] - P[ ( n - 1 ) mod k + 1 ] );
         ShrinkRowVector( Q );
         return [ P, Q ];
     end
 );
-
 
 ###############################################################################
 ##
@@ -165,7 +163,6 @@ InstallGlobalFunction(
     end
 );
 
-
 ###############################################################################
 ##
 ## IsRationalReidemeisterZetaOp( endo1, endo2 )
@@ -186,10 +183,10 @@ InstallMethod(
         local G, coeffs;
         G := Range( endo1 );
         if not IsFinite( G ) then TryNextMethod(); fi;
-        if (
+        if
             ( IsBijective( endo1 ) or IsBijective( endo2 ) ) and
-            endo1*endo2 = endo2*endo1
-        ) then
+            endo1 * endo2 = endo2 * endo1
+        then
             return true;
         fi;
         coeffs := ReidemeisterZetaCoefficientsOp( endo1, endo2 );
@@ -202,7 +199,6 @@ InstallMethod(
         return true;
     end
 );
-
 
 ###############################################################################
 ##
@@ -228,7 +224,6 @@ InstallGlobalFunction(
         return ReidemeisterZetaOp( endo1, endo2 );
     end
 );
-
 
 ###############################################################################
 ##
@@ -260,16 +255,15 @@ InstallMethod(
         return function( s )
             local zeta, i;
             zeta := 1;
-            for i in [1..Length( p )] do
+            for i in [ 1 .. Length( p ) ] do
                 if p[i] <> 0 then
-                    zeta := zeta*( 1-s^i )^-p[i];
+                    zeta := zeta * ( 1 - s ^ i ) ^ -p[i];
                 fi;
             od;
             return zeta;
         end;
     end
 );
-
 
 ###############################################################################
 ##
@@ -297,7 +291,6 @@ InstallGlobalFunction(
     end
 );
 
-
 ###############################################################################
 ##
 ## PrintReidemeisterZetaOp( endo1, endo2 )
@@ -323,7 +316,7 @@ InstallMethod(
         Q := coeffs[2];
         if not IsEmpty( Q ) then
             q := "";
-            for i in [1..Length( Q )] do
+            for i in [ 1 .. Length( Q ) ] do
                 if Q[i] = 0 then
                     continue;
                 fi;
@@ -332,7 +325,7 @@ InstallMethod(
                 elif Q[i] < 0 then
                     q := Concatenation( q, "-" );
                 fi;
-                qi := AbsInt( Q[i] )/i;
+                qi := AbsInt( Q[i] ) / i;
                 if qi = 1 then
                     q := Concatenation( q, "s" );
                 else
@@ -351,12 +344,12 @@ InstallMethod(
         p := DecomposePeriodicList@( P );
         if p = fail then
             k := Length( P );
-            for i in [0..k-1] do
-                pi := ValuePol( ShiftedCoeffs( P, 1 ), E(k)^-i )/k;
+            for i in [ 0 .. k - 1 ] do
+                pi := ValuePol( ShiftedCoeffs( P, 1 ), E(k) ^ -i ) / k;
                 if pi = 0 then
                     continue;
                 fi;
-                if i = k/2 then
+                if i = k / 2 then
                     Add( factors, "1+s" );
                 elif i = 0 then
                     Add( factors, "1-s" );
@@ -366,18 +359,18 @@ InstallMethod(
                         PrintString( k ),
                         ")*s"
                     ));
-                elif i = k/2+1 then
+                elif i = k / 2 + 1 then
                     Add( factors, Concatenation(
                         "1+E(",
                         PrintString( k ),
                         ")*s"
                     ));
-                elif k mod 2 = 0 and i > k/2 then
+                elif k mod 2 = 0 and i > k / 2 then
                     Add( factors, Concatenation(
                         "1+E(",
                         PrintString( k ),
                         ")^",
-                        PrintString( i-k/2 ),
+                        PrintString( i - k / 2 ),
                         "*s"
                     ));
                 else
@@ -392,7 +385,7 @@ InstallMethod(
                 Add( powers, -pi );
             od;
         else
-            for i in [1..Length( p )] do
+            for i in [ 1 .. Length( p ) ] do
                 if p[i] = 0 then
                     continue;
                 fi;
@@ -404,7 +397,7 @@ InstallMethod(
                 Add( powers, -p[i] );
             od;
         fi;
-        for i in [1..Length( factors )] do
+        for i in [ 1 .. Length( factors ) ] do
             if zeta <> "" then
                 zeta := Concatenation( zeta, "*" );
             fi;

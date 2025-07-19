@@ -1,8 +1,6 @@
-ASSERT@TwistedConjugacyClone := true;
-pkgName := "TwistedConjugacyClone";
-
-tst := DirectoriesPackageLibrary( pkgName, "tst" )[1];
-info := PackageInfo( pkgName )[1];
+Read( "PackageInfo.g" );
+info := GAPInfo.PackageInfoCurrent;
+pkgName := info.PackageName;
 
 if (
     LoadPackage( pkgName, false ) = fail or
@@ -21,60 +19,61 @@ if IsBound( info.Extensions ) then
 fi;
 
 AutoDoc( rec(
-    autodoc := rec(
-        files := [ "doc/manual.gd" ]
-    ),
     scaffold := rec(
-        bib := "manual.bib"
-    ),
-    gapdoc := rec(
-        main := "manual.xml",
-        LaTeXOptions := rec(
-            LateExtraPreamble := "\\usepackage{amsmath}"
+        bib := "manual.bib",
+        entities := rec(
+            AT := "@",
+            AutoDoc := "<Package>AutoDoc</Package>",
+            Polycyclic := "<Package>Polycyclic</Package>",
+            PackageManager := "<Package>PackageManager</Package>",
+            TwistedConjugacy := Concatenation(
+                "<Package>",
+                info.PackageName,
+                "</Package>"
+            ),
+            BibLaTeX := "Bib&LaTeX;",
+            RELEASEYEAR := String( info.Date{ [ 7 .. 10 ] } ),
+            VERSION := info.Version,
+            ARCHIVEURL := info.ArchiveURL,
+            ISSUEURL := info.IssueTrackerURL,
+            HOMEURL := info.PackageWWWHome,
+            SUPPORTEMAIL := info.SupportEmail,
+            SUBTITLE := info.Subtitle
         )
     ),
-    extract_examples := rec(
-        units := "Chapter"
-    )
+    autodoc := rec( files := [ "doc/manual.gd" ] ),
+    gapdoc := rec(
+        LaTeXOptions := rec( LateExtraPreamble := "\\usepackage{amsmath}" )
+    ),
+    extract_examples := rec( units := "File" )
 ));
 
-#ValidatePackageInfo requires all manual pdfs to be created - might not want this!
-#if not ValidatePackageInfo( "PackageInfo.g" ) then
-#    Info( InfoGAPDoc, 1, "#I One or more files could not be created.\n" );
-#    ForceQuitGap( 1 );
-#else
-#    Info( InfoGAPDoc, 1, "#I Manual files sucessfully created.\n" );
-#fi;
-
-correct := true;
-Info( InfoGAPDoc, 1, "#I Testing examples found in manual.\n" );
-
-lpkgName := LowercaseString( pkgName );
-lpkgName := ReplacedString( lpkgName, " ", "_" );
-
-for file in AsSortedList( DirectoryContents( tst ) ) do
-    if (
-        StartsWith( file, lpkgName ) and
-        EndsWith( file, ".tst" ) and
-        Length( file ) - Length( lpkgName ) >= 6 and
-        ForAll( file{[1 + Length( lpkgName ) .. Length( file ) - 4]}, IsDigitChar )
-    ) then
-        Info( InfoGAPDoc, 1, Concatenation( "#I  Now testing file ", file, "\n" ) );
-        correct := correct and Test(
-            Filename( tst, file ),
-            rec( compareFunction := "uptowhitespace" )
-        );
-        RemoveFile( Filename( tst, file ) );
-    fi;
-od;
-
-if not correct then
-    Info( InfoGAPDoc, 1, "#I One or more examples are incorrect.\n" );
+if not IsReadableFile( "doc/manual.six" ) then
+    Info( InfoGAPDoc, 1, "#I One or more files could not be created.\n" );
     ForceQuitGap( 1 );
 else
-    Info( InfoGAPDoc, 1, "#I All tests passed - manual should be correct.\n" );
+    Info( InfoGAPDoc, 1, "#I Manual files sucessfully created.\n" );
+fi;
+
+tstFile := Concatenation(
+    "tst/",
+    ReplacedString( LowercaseString( pkgName ), " ", "_" ),
+    "01.tst"
+);
+
+if IsReadableFile( tstFile ) then
+    Info( InfoGAPDoc, 1, "#I Testing examples found in manual.\n" );
+    correct := Test( tstFile, rec( compareFunction := "uptowhitespace" ) );
+    RemoveFile( tstFile );
+    if correct then
+        Info( InfoGAPDoc, 1, "#I All examples are correct.\n" );
+    else
+        Info( InfoGAPDoc, 1, "#I One or more examples are incorrect.\n" );
+        ForceQuitGap( 1 );
+    fi;
+else
+    Info( InfoGAPDoc, 1, "#I No examples found in manual.\n" );
 fi;
 
 Info( InfoGAPDoc, 1, "#I Documentation successfully created.\n" );
 QuitGap( 0 );
-

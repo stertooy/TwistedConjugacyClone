@@ -17,7 +17,6 @@ InstallGlobalFunction(
     end
 );
 
-
 ###############################################################################
 ##
 ## CoincidenceGroup( hom1, hom2, arg... )
@@ -35,7 +34,7 @@ InstallGlobalFunction(
 InstallGlobalFunction(
     CoincidenceGroup,
     function( hom1, hom2, arg... )
-        local G, H, Coin, new, homi, h, imgs;
+        local G, Coin, new, homi, h, imgs;
         G := Range( hom1 );
         Coin := CoincidenceGroup2( hom1, hom2 );
         for homi in arg do
@@ -52,13 +51,12 @@ InstallGlobalFunction(
                 for homi in arg do
                     AddSet( imgs, ImagesRepresentative( homi, h ) );
                 od;
-                if Length( imgs ) > 1 then Error("Assertion failure"); fi;
+                if Length( imgs ) > 1 then Error( "Assertion failure" ); fi;
             od;
         fi;
         return Coin;
     end
 );
-
 
 ###############################################################################
 ##
@@ -95,8 +93,8 @@ InstallMethod(
         G := Range( hom1 );
         H := Source( hom1 );
         if not IsAbelian( G ) then TryNextMethod(); fi;
-        diff := DifferenceGroupHomomorphisms@ ( hom1, hom2, H, G );
-        return Kernel( diff );
+        diff := DifferenceGroupHomomorphisms( hom1, hom2, H, G );
+        return KernelOfMultiplicativeGeneralMapping( diff );
     end
 );
 
@@ -117,5 +115,28 @@ InstallMethod(
         fi;
         tc := TwistedConjugation( hom1, hom2 );
         return StabilizerOp( H, One( G ), gens, gens, tc );
+    end
+);
+
+###############################################################################
+##
+## InducedCoincidenceGroup( q, p, hom1, hom2 )
+##
+##  INPUT:
+##      q:          projection H -> Q
+##      p:          projection G -> P
+##      hom1:       group endomorphism H -> G
+##      hom2:       group endomorphism H -> G
+##
+##  OUTPUT:
+##      coin:       coincidence group of the induced homomorphisms Q -> P
+##
+InstallGlobalFunction(
+    InducedCoincidenceGroup,
+    function( q, p, hom1, hom2 )
+        local ind1, ind2;
+        ind1 := InducedHomomorphism( q, p, hom1 );
+        ind2 := InducedHomomorphism( q, p, hom2 );
+        return CoincidenceGroup2( ind1, ind2 );
     end
 );

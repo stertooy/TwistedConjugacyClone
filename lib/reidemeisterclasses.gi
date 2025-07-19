@@ -12,37 +12,34 @@
 ##
 InstallGlobalFunction(
     ReidemeisterClass,
-    function( hom1, x, arg... )
+    function( hom1, arg... )
         local G, H, hom2, g, tc, tcc;
         G := Range( hom1 );
         H := Source( hom1 );
-        if Length( arg ) = 0 then
+        if Length( arg ) = 1 then
             hom2 := IdentityMapping( G );
-            g := x;
+            g := First( arg );
         else
-            hom2 := x;
-            g := arg[1];
+            hom2 := First( arg );
+            g := Last( arg );
         fi;
         tc := TwistedConjugation( hom1, hom2 );
-        tcc := rec();
+        tcc := rec( lhs := hom1, rhs := hom2 );
         ObjectifyWithAttributes(
             tcc, NewType(
                 FamilyObj( G ),
                 IsReidemeisterClassGroupRep and
                 HasActingDomain and
                 HasRepresentative and
-                HasFunctionAction and
-                HasGroupHomomorphismsOfReidemeisterClass
+                HasFunctionAction
             ),
             ActingDomain, H,
             Representative, g,
-            FunctionAction, tc,
-            GroupHomomorphismsOfReidemeisterClass, [ hom1, hom2 ]
+            FunctionAction, tc
         );
         return tcc;
     end
 );
-
 
 ###############################################################################
 ##
@@ -59,16 +56,11 @@ InstallMethod(
     \in,
     "for Reidemeister classes",
     [ IsMultiplicativeElementWithInverse, IsReidemeisterClassGroupRep ],
-    function( g, tcc )
-        local hom;
-        hom := GroupHomomorphismsOfReidemeisterClass( tcc );
-        return IsTwistedConjugate(
-            hom[1], hom[2],
-            g, Representative( tcc )
-        );
-    end
+    { g, tcc } -> IsTwistedConjugate(
+        tcc!.lhs, tcc!.rhs,
+        g, Representative( tcc )
+    )
 );
-
 
 ###############################################################################
 ##
@@ -82,11 +74,10 @@ InstallMethod(
     "for Reidemeister classes",
     [ IsReidemeisterClassGroupRep ],
     function( tcc )
-        local homs, homStrings, g, hom, homGensImgs;
-        homs := GroupHomomorphismsOfReidemeisterClass( tcc );
+        local homStrings, g, hom, homGensImgs;
         homStrings := [];
         g := Representative( tcc );
-        for hom in homs do
+        for hom in [ tcc!.lhs, tcc!.rhs ] do
             homGensImgs := MappingGeneratorsImages( hom );
             Add( homStrings, Concatenation(
                 String( homGensImgs[1] ),
@@ -107,33 +98,6 @@ InstallMethod(
     end
 );
 
-
-###############################################################################
-##
-## Random( rs, tcc )
-##
-##  INPUT:
-##      rs:         random generator
-##      tcc:        twisted conjugacy class
-##
-##  OUTPUT:
-##      g:          random element of tcc
-##
-InstallMethodWithRandomSource(
-    Random,
-    "for a random source and a Reidemeister class",
-    [ IsRandomSource, IsReidemeisterClassGroupRep ],
-    function( rs, tcc )
-        local H, g, h, tc;
-        H := ActingDomain( tcc );
-        g := Representative( tcc );
-        h := Random( rs, H );
-        tc := FunctionAction( tcc );
-        return tc( g, h );
-    end
-);
-
-
 ###############################################################################
 ##
 ## Size( tcc )
@@ -148,46 +112,8 @@ InstallMethod(
     Size,
     "for Reidemeister classes",
     [ IsReidemeisterClassGroupRep ],
-    function( tcc )
-        local H, Coin;
-        H := ActingDomain( tcc );
-        Coin := StabilizerOfExternalSet( tcc );
-        return IndexNC( H, Coin );
-    end
+    tcc -> IndexNC( ActingDomain( tcc ), StabilizerOfExternalSet( tcc ) )
 );
-
-
-###############################################################################
-##
-## ListOp( tcc )
-##
-##  INPUT:
-##      tcc:        twisted conjugacy class
-##
-##  OUTPUT:
-##      L:          list containing the elements of tcc, or fail if tcc has
-##                  infinitely many elements
-##
-InstallMethod(
-    ListOp,
-    "for Reidemeister classes",
-    [ IsReidemeisterClassGroupRep ],
-    function( tcc )
-        local H, Coin, g, tc;
-        if Size( tcc ) = infinity then
-            return fail;
-        fi;
-        H := ActingDomain( tcc );
-        Coin := StabilizerOfExternalSet( tcc );
-        g := Representative( tcc );
-        tc := FunctionAction( tcc );
-        return List(
-            RightTransversal( H, Coin ),
-            h -> tc( g, h )
-        );
-    end
-);
-
 
 ###############################################################################
 ##
@@ -205,23 +131,50 @@ InstallMethod(
     "for Reidemeister classes",
     [ IsReidemeisterClassGroupRep ],
     function( tcc )
-        local g, hom, G, inn;
+        local g, hom1, hom2, G, inn;
         g := Representative( tcc );
-        hom := GroupHomomorphismsOfReidemeisterClass( tcc );
-        G := Range( hom[1] );
-        inn := InnerAutomorphismNC( G, g^-1 );
-        return CoincidenceGroup2( hom[1]*inn, hom[2] );
+        hom1 := tcc!.lhs;
+        hom2 := tcc!.rhs;
+        G := Range( hom1 );
+        inn := InnerAutomorphismNC( G, g );
+        return CoincidenceGroup2( hom1 * inn, hom2 );
     end
 );
 
+###############################################################################
+##
+## \=( tcc1, tcc2 )
+##
+##  INPUT:
+##      tcc1:       twisted conjugacy class
+##      tcc2:       twisted conjugacy class
+##
+##  OUTPUT:
+##      bool:       true if tcc1 is equal to tcc2, false otherwise
+##
+InstallMethod(
+    \=,
+    "for Reidemeister classes",
+    [ IsReidemeisterClassGroupRep, IsReidemeisterClassGroupRep ],
+    function( tcc1, tcc2 )
+        if tcc1!.lhs <> tcc2!.lhs or tcc1!.rhs <> tcc2!.rhs then
+            return false;
+        fi;
+        return IsTwistedConjugate(
+            tcc1!.lhs, tcc1!.rhs,
+            Representative( tcc1 ), Representative( tcc2 )
+        );
+    end
+);
 
 ###############################################################################
 ##
-## ReidemeisterClasses( hom1, hom2 )
+## ReidemeisterClasses( hom1, hom2, N )
 ##
 ##  INPUT:
 ##      hom1:       group homomorphism H -> G
-##      hom2:       group homomorphism H -> G
+##      hom2:       group homomorphism H -> G (optional)
+##      N:          normal subgroup of G (optional)
 ##
 ##  OUTPUT:
 ##      L:          list containing the (hom1,hom2)-twisted conjugacy classes,
@@ -230,14 +183,19 @@ InstallMethod(
 InstallGlobalFunction(
     ReidemeisterClasses,
     function( hom1, arg... )
-        local G, hom2, Rcl, copy, g, h;
+        local G, hom2, N, Rcl;
         G := Range( hom1 );
-        if Length( arg ) = 0 then
-            hom2 := IdentityMapping( G );
+        if IsGroupHomomorphism( First( arg ) ) then
+            hom2 := First( arg );
         else
-            hom2 := arg[1];
+            hom2 := IdentityMapping( G );
         fi;
-        Rcl := RepresentativesReidemeisterClasses( hom1, hom2 );
+        if IsGroup( Last( arg ) ) then
+            N := Last( arg );
+        else
+            N := G;
+        fi;
+        Rcl := RepresentativesReidemeisterClasses( hom1, hom2, N );
         if Rcl = fail then
             return fail;
         fi;
@@ -245,14 +203,14 @@ InstallGlobalFunction(
     end
 );
 
-
 ###############################################################################
 ##
-## RepresentativesReidemeisterClasses( hom1, hom2 )
+## RepresentativesReidemeisterClasses( hom1, hom2, N )
 ##
 ##  INPUT:
 ##      hom1:       group homomorphism H -> G
-##      hom2:       group homomorphism H -> G
+##      hom2:       group homomorphism H -> G (optional)
+##      N:          normal subgroup of G (optional)
 ##
 ##  OUTPUT:
 ##      L:          list containing a representative of each (hom1,hom2)-
@@ -262,29 +220,44 @@ InstallGlobalFunction(
 InstallGlobalFunction(
     RepresentativesReidemeisterClasses,
     function( hom1, arg... )
-        local G, hom2, Rcl, copy, g, h, pos, i;
+        local G, H, hom2, N, gens, tc, q, p, Rcl, copy, g, h, pos, i;
         G := Range( hom1 );
-        if Length( arg ) = 0 then
-            hom2 := IdentityMapping( G );
+        H := Source( hom1 );
+        if IsGroupHomomorphism( First( arg ) ) then
+            hom2 := First( arg );
         else
-            hom2 := arg[1];
+            hom2 := IdentityMapping( G );
         fi;
-        Rcl := RepresentativesReidemeisterClassesOp( hom1, hom2 );
+        if IsGroup( Last( arg ) ) then
+            N := Last( arg );
+        else
+            N := G;
+        fi;
+        gens := GeneratorsOfGroup( H );
+        tc := TwistedConjugation( hom1, hom2 );
+        if N <> G and not ForAll( gens, h -> tc( One( G ), h ) in N ) then
+            q := IdentityMapping( H );
+            p := NaturalHomomorphismByNormalSubgroupNC( G, N );
+            H := InducedCoincidenceGroup( q, p, hom1, hom2 );
+            hom1 := RestrictedHomomorphism( hom1, H, G );
+            hom2 := RestrictedHomomorphism( hom2, H, G );
+        fi;
+        Rcl := RepresentativesReidemeisterClassesOp( hom1, hom2, N, false );
         if Rcl = fail then
             return fail;
         elif ASSERT@ then
             copy := ShallowCopy( Rcl );
             g := Remove( copy );
             while not IsEmpty( copy ) do
-                if ForAny( copy, h -> IsTwistedConjugate( hom1, hom2, g, h) )
-                then Error("Assertion failure"); fi;
+                if ForAny( copy, h -> IsTwistedConjugate( hom1, hom2, g, h ) )
+                then Error( "Assertion failure" ); fi;
                 g := Remove( copy );
             od;
         fi;
         pos := Position( Rcl, One( G ) );
         if pos = fail then
             pos := First(
-                [1..Length( Rcl )],
+                [ 1 .. Length( Rcl ) ],
                 i -> IsTwistedConjugate( hom1, hom2, Rcl[i] )
             );
         fi;
@@ -296,50 +269,50 @@ InstallGlobalFunction(
     end
 );
 
-
 ###############################################################################
 ##
-## RepresentativesReidemeisterClassesOp( hom1, hom2 )
+## RepresentativesReidemeisterClassesOp( hom1, hom2, N )
 ##
 ##  INPUT:
 ##      hom1:       group homomorphism H -> G
 ##      hom2:       group homomorphism H -> G
+##      N:          normal subgroup of G with hom1 = hom2 mod N
 ##
 ##  OUTPUT:
 ##      L:          list containing a representative of each (hom1,hom2)-
-##                  twisted conjugacy class, or fail if there are infinitely
-##                  many
+##                  twisted conjugacy class in N, or fail if there are
+##                  infinitely many
 ##
 InstallMethod(
     RepresentativesReidemeisterClassesOp,
-    "for trivial range",
-    [ IsGroupHomomorphism, IsGroupHomomorphism ],
-    6,
-    function( hom1, hom2 )
-        local G;
-        G := Range( hom1 );
-        if not IsTrivial( G ) then TryNextMethod(); fi;
-        return [ One( G ) ];
+    "for trivial subgroup",
+    [ IsGroupHomomorphism, IsGroupHomomorphism, IsGroup, IsBool ],
+    8,
+    function( hom1, hom2, N, one )
+        if not IsTrivial( N ) then TryNextMethod(); fi;
+        return [ One( N ) ];
     end
 );
 
 InstallMethod(
     RepresentativesReidemeisterClassesOp,
-    "for abelian range",
-    [ IsGroupHomomorphism, IsGroupHomomorphism ],
-    4,
-    function( hom1, hom2 )
-        local G, H, diff, N, p, pg;
+    "for central subgroup",
+    [ IsGroupHomomorphism, IsGroupHomomorphism, IsGroup, IsBool ],
+    6,
+    function( hom1, hom2, N, one )
+        local G, H, diff, D, p;
         G := Range( hom1 );
+        if not IsCentral( G, N ) then TryNextMethod(); fi;
         H := Source( hom1 );
-        if not IsAbelian( G ) then TryNextMethod(); fi;
-        diff := DifferenceGroupHomomorphisms@( hom1, hom2, H, G );
-        N := ImagesSource( diff );
-        if IndexNC( G, N ) = infinity then return fail; fi;
-        p := NaturalHomomorphismByNormalSubgroupNC( G, N );
+        diff := DifferenceGroupHomomorphisms( hom1, hom2, H, N );
+        D := ImagesSource( diff );
+        if ( one and N <> D ) or IndexNC( N, D ) = infinity then
+            return fail;
+        fi;
+        p := NaturalHomomorphismByNormalSubgroupNC( N, D );
         return List(
             ImagesSource( p ),
-            pg -> PreImagesRepresentative( p, pg )
+            pn -> PreImagesRepresentativeNC( p, pn )
         );
     end
 );
@@ -347,23 +320,29 @@ InstallMethod(
 InstallMethod(
     RepresentativesReidemeisterClassesOp,
     "for finite source",
-    [ IsGroupHomomorphism, IsGroupHomomorphism ],
-    3,
-    function( hom1, hom2 )
-        local G, H, Rcl, tc, G_List, gens, orbits;
-        G := Range( hom1 );
+    [ IsGroupHomomorphism, IsGroupHomomorphism, IsGroup, IsBool ],
+    5,
+    function( hom1, hom2, N, one )
+        local H, tc, N_List, gens, orb;
         H := Source( hom1 );
         if not IsFinite( H ) then TryNextMethod(); fi;
-        if not IsFinite( G ) then return fail; fi;
-        Rcl := [];
+        if not IsFinite( N ) then
+            return fail;
+        fi;
         tc := TwistedConjugation( hom1, hom2 );
-        G_List := AsSSortedListNonstored( G );
+        N_List := AsSSortedListNonstored( N );
         if CanEasilyComputePcgs( H ) then
             gens := Pcgs( H );
         else
             gens := SmallGeneratingSet( H );
         fi;
-        orbits := OrbitsDomain( H, G_List, gens, gens, tc );
-        return ListX( orbits, First );
+        if one then
+            orb := ExternalOrbit( H, N_List, One( N ), gens, gens, tc );
+            if Size( orb ) < Length( N_List ) then
+                return fail;
+            fi;
+            return [ One( N ) ];
+        fi;
+        return List( ExternalOrbits( H, N_List, gens, gens, tc ), First );
     end
 );

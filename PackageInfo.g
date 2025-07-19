@@ -1,9 +1,9 @@
 SetPackageInfo( rec(
 
-PackageName := "TwistedConjugacyClone",
+PackageName := "TwistedConjugacy",
 Subtitle := "Computation with twisted conjugacy classes",
-Version := "2.4.11",
-Date := "2025-07-17",
+Version := "3.0.0",
+Date := "21/07/2025",
 License := "GPL-2.0-or-later",
 
 Persons := [
@@ -12,28 +12,34 @@ Persons := [
         IsMaintainer := true,
         FirstNames := "Sam",
         LastName := "Tertooy",
+        GitHubUsername := "stertooy",
         WWWHome := "https://stertooy.github.io/",
         Email := "sam.tertooy@kuleuven.be",
         PostalAddress := """
             Wiskunde
-            KU Leuven Kulak Kortrijk Campus
+            KU Leuven, Kulak Kortrijk Campus
             Etienne Sabbelaan 53
             8500 Kortrijk
             Belgium
         """,
         Place := "Kortrijk, Belgium",
-        Institution := "KU Leuven Kulak Kortrijk Campus",
-    )
+        Institution := "KU Leuven, Kulak Kortrijk Campus"
+    ),
 ],
 
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/stertooy/", ~.PackageName ),
+    URL := Concatenation(
+        "https://github.com/",
+        ~.Persons[1].GitHubUsername,
+        "/",
+        ~.PackageName
+    )
 ),
-SupportEmail := "sam.tertooy@kuleuven.be",
+SupportEmail := ~.Persons[1].Email,
 
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://stertooy.github.io/", ~.PackageName ),
+PackageWWWHome  := Concatenation( ~.Persons[1].WWWHome, ~.PackageName ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
 ArchiveURL      := Concatenation(
@@ -42,84 +48,57 @@ ArchiveURL      := Concatenation(
     "/", ~.PackageName, "-", ~.Version
 ),
 
-ArchiveFormats := ".tar.gz .zip, .tar.bz2",
+ArchiveFormats := ".tar.gz",
 
 AbstractHTML := """
-    The TwistedConjugacy package provides methods to calculate Reidemeister
-    classes, numbers, spectra and zeta functions, as well as other methods
-    related to homomorphisms, endomorphisms and automorphisms of groups.
-    These methods are, for the most part, designed to be used with finite
-    groups and polycyclically presented groups.
+    The TwistedConjugacy package provides methods for solving the twisted
+    conjugacy problem (including the "search" and "multiple" variants) and for
+    computing Reidemeister classes, numbers, spectra, and zeta functions. It
+    also includes utility functions for working with (double) cosets, group
+    homomorphisms, and group derivations.
+
+    These methods are primarily designed for use with finite groups and with
+    PcpGroups (finite or infinite) provided by the Polycyclic package.
 """,
 
-PackageDoc := [
-    rec(
-        BookName  := ~.PackageName,
-        ArchiveURLSubset := ["doc"],
-        HTMLStart := "doc/chap0_mj.html",
-        PDFFile   := "doc/manual.pdf",
-        SixFile   := "doc/manual.six",
-        LongTitle := ~.Subtitle,
-    ),
-    rec(
-        BookName  := Concatenation( ~.PackageName, "-2" ),
-        ArchiveURLSubset := ["doc2"],
-        HTMLStart := "doc2/chap0_mj.html",
-        PDFFile   := "doc2/manual2.pdf",
-        SixFile   := "doc2/manual2.six",
-        LongTitle := ~.Subtitle,
-    ),
-],
+PackageDoc := rec(
+    BookName  := ~.PackageName,
+    ArchiveURLSubset := [ "doc" ],
+    HTMLStart := "doc/chap0_mj.html",
+    PDFFile   := "doc/manual.pdf",
+    SixFile   := "doc/manual.six",
+    LongTitle := ~.Subtitle
+),
 
 Dependencies := rec(
-    GAP := ">= 4.13",
+    GAP := ">= 4.14",
+    NeededOtherPackages := [ ],
+    SuggestedOtherPackages := [ [ "AutPGrp", "1.11" ] ]
 ),
 
 Extensions := [
     rec(
         needed := [ [ "Polycyclic", "2.16" ] ],
-        filename := "read_pcp.g"
+        filename := "lib/pcp/read_pcp.g"
     )
 ],
-
-AvailabilityTest := ReturnTrue,
 
 TestFile := "tst/testall.g",
 
 Keywords := [
+    "automorphism",
     "coincidence group",
+    "coset",
+    "derivation",
+    "double coset",
     "endomorphism",
     "fixed point group",
     "homomorphism",
+    "Reidemeister class",
     "Reidemeister number",
     "Reidemeister spectrum",
     "Reidemeister zeta function",
-    "twisted conjugacy",
+    "twisted conjugacy"
 ],
-
-AutoDoc := rec(
-    TitlePage := rec(
-        Abstract := """
-            The <B>TwistedConjugacy</B> package provides methods to calculate
-            Reidemeister classes, numbers, spectra and zeta functions, as well
-            as other methods related to homomorphisms, endomorphisms and
-            automorphisms of groups. These methods are, for the most part,
-            designed to be used with finite groups and polycyclically presented
-            groups.
-        """,
-        Acknowledgements := """
-            This documentation was created using the <B>GAPDoc</B> and
-            <B>AutoDoc</B> packages.
-        """,
-        Copyright := """
-            &copyright; 2020-2024 Sam Tertooy <P/>
-            The <B>TwistedConjugacy</B> package is free software, it may be
-            redistributed and/or modified under the terms and conditions of the
-            <URL Text="GNU Public License Version 2">
-            https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</URL> or
-            (at your option) any later version.
-        """
-    )
-),
 
 ));

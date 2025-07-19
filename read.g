@@ -1,11 +1,11 @@
 if not IsBound( ASSERT@ ) then ASSERT@ := false; fi;
 
-ReadPackage( "TwistedConjugacyClone", "lib/helpfunctions.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/coincidencegroup.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/homomorphisms.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/twistedconjugation.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/twistedconjugationmultiple.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/reidemeisterclasses.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/reidemeisternumber.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/reidemeisterspectrum.gi" );
-ReadPackage( "TwistedConjugacyClone", "lib/reidemeisterzeta.gi" );
+ReadPackage( "TwistedConjugacy", "lib/coincidencegroup.gi" );
+ReadPackage( "TwistedConjugacy", "lib/cosets.gi" );
+ReadPackage( "TwistedConjugacy", "lib/derivations.gi" );
+ReadPackage( "TwistedConjugacy", "lib/homomorphisms.gi" );
+ReadPackage( "TwistedConjugacy", "lib/reidemeisterclasses.gi" );
+ReadPackage( "TwistedConjugacy", "lib/reidemeisternumber.gi" );
+ReadPackage( "TwistedConjugacy", "lib/reidemeisterspectrum.gi" );
+ReadPackage( "TwistedConjugacy", "lib/reidemeisterzeta.gi" );
+ReadPackage( "TwistedConjugacy", "lib/twistedconjugation.gi" );
