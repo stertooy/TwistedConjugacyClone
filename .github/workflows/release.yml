@@ -36,6 +36,11 @@ jobs:
       image: ghcr.io/stertooy/gda-image:master-min
       
     steps:
+      - name: "Fix git on container"
+        shell: bash
+        run: |
+          git config --global --add safe.directory $PWD
+    
       - name: "Checkout"
         uses: actions/checkout@v4
 
