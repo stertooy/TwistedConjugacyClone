@@ -1,0 +1,37 @@
+name: Update GH-pages
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'the version of the package from which to update the website (if empty, use latest)'
+        required: false
+        type: string
+        default: ''
+      clean:
+        description: 'use a fresh copy of the GithubPagesForGAP website - this will undo any modifications made'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  # The CI test job
+  update:
+    name: Update GH pages
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/stertooy/gda-image:tex-full
+
+    steps:
+      - name: "Fix container..."
+        shell: bash
+        run: |
+          git config --global --add safe.directory $PWD
+          sudo apt-get update
+          sudo apt-get install wget
+    
+      - uses: actions/checkout@v4
+      
+      - uses: stertooy/update-gh-pages@main
+        with:
+          version: ${{ inputs.version }}
+          clean: ${{ inputs.clean }}
