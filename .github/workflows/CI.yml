@@ -46,17 +46,6 @@ jobs:
           NO_COVERAGE: ${{ matrix.no-coverage }}
           load-all: true
           warnings-as-errors: true
-            
-      - name: "Process coverage"
-        uses: gap-actions/process-coverage@v2
-        if: ${{ !matrix.no-coverage }}
-
-      - name: "Upload coverage"
-        uses: codecov/codecov-action@v5
-        if: ${{ !matrix.no-coverage }}
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
 
   validation:
     name: "Validate manual & metadata"
