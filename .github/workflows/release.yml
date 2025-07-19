@@ -9,6 +9,8 @@ on:
         required: false
         default: false
 
+permissions: write-all
+
 jobs:
   release:
     name: "Release GAP Package"
