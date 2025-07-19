@@ -1,27 +1,33 @@
-name: Release
+---
+name: Release Package
 on:
-  - workflow_dispatch
-permissions: write-all
+  pull_request:
+  push:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Set to true to prevent actually making a release"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   release:
     name: "Release GAP Package"
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/stertooy/gda-image:tex-full
 
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
-      - name: "Setup Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+
       - name: "Setup GAP"
-        uses: gap-actions/setup-gap@v2
-        with:
-          GAPBRANCH: master
-      - name: "Build GAP Package"
-        uses: gap-actions/build-pkg@v1
+        uses: gap-actions/build-pkg-docs@v1.3.2
+        
       - name: "Release GAP Package"
-        uses: stertooy/ReleaseTools@v0.0.10
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: stertooy/release-pkg@read-json-etc
+
+      - name: "Update gh-pages"
+        uses: stertooy/update-gh-pages@first-attempt
+        
