@@ -31,7 +31,7 @@ jobs:
     
       - uses: actions/checkout@v4
       
-      - uses: stertooy/update-gh-pages@main
+      - uses: stertooy/update-gh-pages@fix
         with:
           version: ${{ inputs.version }}
           clean: ${{ inputs.clean }}
