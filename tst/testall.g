@@ -1,4 +1,4 @@
-LoadPackage( "TwistedConjugacy" );
+LoadPackage( "TwistedConjugacyClone" );
 ASSERT@TwistedConjugacy := true;
 testOpts := rec(
     exitGAP := false,
@@ -8,8 +8,8 @@ testOpts := rec(
 
 pass := TestDirectory(
     [
-        DirectoriesPackageLibrary( "TwistedConjugacy", "tst/pcgroup" ),
-        DirectoriesPackageLibrary( "TwistedConjugacy", "tst/permgroup" )
+        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/pcgroup" ),
+        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/permgroup" )
     ],
     testOpts
 );
@@ -19,7 +19,7 @@ if LoadPackage( "Polycyclic" ) then
     CHECK_IGS@Polycyclic := true;
     CHECK_INTSTAB@Polycyclic := true;
     pass := TestDirectory(
-        DirectoriesPackageLibrary( "TwistedConjugacy", "tst/pcpgroup" ),
+        DirectoriesPackageLibrary( "TwistedConjugacyClone", "tst/pcpgroup" ),
         testOpts
     ) and pass;
 fi;
