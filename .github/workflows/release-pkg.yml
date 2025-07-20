@@ -25,6 +25,8 @@ jobs:
 
       - name: "Build docs"
         uses: gap-actions/build-pkg-docs@v1.3.2
+        with:
+          use-latex: true
         
       - name: "Release GAP Package"
         uses: stertooy/release-pkg@fix
