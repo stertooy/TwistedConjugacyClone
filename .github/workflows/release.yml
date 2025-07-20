@@ -28,24 +28,12 @@ jobs:
       - name: "Release GAP Package"
         uses: stertooy/release-pkg@fix
 
-  pages:
-    name: "Update GitHub pages with release"
-    runs-on: ubuntu-latest
-    needs: release
-    container:
-      image: ghcr.io/stertooy/gda-image:master-min
-      
-    steps:
       - name: "Fix container..."
         shell: bash
         run: |
           git config --global --add safe.directory $PWD
           sudo apt-get update
           sudo apt-get install wget
-    
-      - name: "Checkout"
-        uses: actions/checkout@v4
-
+          
       - name: "Update gh-pages"
         uses: stertooy/update-gh-pages@fix
-        
