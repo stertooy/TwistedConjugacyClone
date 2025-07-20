@@ -1,0 +1,33 @@
+---
+name: Release GAP Package (no containers)
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Set to true to prevent actually making a release"
+        type: boolean
+        required: false
+        default: false
+
+permissions: write-all
+
+jobs:
+  release:
+    name: "Release GAP Package"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Setup GAP"
+        uses: gap-actions/setup-gap@v2
+
+      - name: "Build docs"
+        uses: gap-actions/build-pkg-docs@v1.3.2
+        
+      - name: "Release GAP Package"
+        uses: stertooy/release-pkg@fix
+          
+      - name: "Update gh-pages"
+        uses: stertooy/update-gh-pages@fix
