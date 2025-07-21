@@ -1,5 +1,4 @@
----
-name: Release GAP Package (no containers)
+name: Release GAP Package
 on:
   workflow_dispatch:
     inputs:
@@ -15,23 +14,13 @@ jobs:
   release:
     name: "Release GAP Package"
     runs-on: ubuntu-latest
-
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
-
-      - name: "Setup GAP"
-        uses: gap-actions/setup-gap@v2
+      - uses: actions/checkout@v4
+      - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: json
-
-      - name: "Build docs"
-        uses: gap-actions/build-pkg-docs@v1.3.2
+      - uses: gap-actions/build-pkg-docs@v1
         with:
           use-latex: true
-        
-      - name: "Release GAP Package"
-        uses: stertooy/release-pkg@fix
-          
-      - name: "Update gh-pages"
-        uses: stertooy/update-gh-pages@fix
+      - uses: stertooy/release-pkg@read-json-etc
+      - uses: stertooy/update-gh-pages@first-attempt
