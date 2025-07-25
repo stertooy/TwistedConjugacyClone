@@ -22,5 +22,5 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v1
         with:
           use-latex: true
-      - uses: stertooy/release-pkg@read-json-etc
-      - uses: stertooy/update-gh-pages@first-attempt
+      - uses: stertooy/release-pkg@update-features
+      - uses: stertooy/update-gh-pages@update-features
