@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: stertooy/build-pkg-docs@no-leftover-files
+      - uses: stertooy/build-pkg-docs@no_leftover_files
         with:
           use-latex: true
       - uses: stertooy/release-pkg@update-features
