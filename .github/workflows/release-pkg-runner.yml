@@ -1,4 +1,4 @@
-name: Release GAP Package
+name: Release GAP Package (without container)
 on:
   workflow_dispatch:
     inputs:
@@ -19,7 +19,7 @@ jobs:
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: json
-      - uses: gap-actions/build-pkg-docs@v1
+      - uses: gap-actions/build-pkg-docs@no-leftover-files
         with:
           use-latex: true
       - uses: stertooy/release-pkg@update-features
