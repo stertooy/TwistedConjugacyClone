@@ -19,7 +19,7 @@ jobs:
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: json
-      - uses: gap-actions/build-pkg-docs@no-leftover-files
+      - uses: stertooy/build-pkg-docs@no-leftover-files
         with:
           use-latex: true
       - uses: stertooy/release-pkg@update-features
