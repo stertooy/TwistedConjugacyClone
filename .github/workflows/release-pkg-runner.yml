@@ -23,4 +23,8 @@ jobs:
         with:
           use-latex: true
       - uses: stertooy/release-pkg@update-features
+        with:
+          dry-run: ${{ inputs.dry-run }}
       - uses: stertooy/update-gh-pages@update-features
+        with:
+          dry-run: ${{ inputs.dry-run }}
