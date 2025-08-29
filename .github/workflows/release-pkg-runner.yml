@@ -7,6 +7,11 @@ on:
         type: boolean
         required: false
         default: false
+      force:
+        description: "DASH DASH FORCE"
+        type: boolean
+        required: false
+        default: false
 
 permissions: write-all
 
@@ -22,8 +27,9 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v1
         with:
           use-latex: true
-      - uses: gap-actions/release-pkg@v1
+      - uses: stertooy/release-pkg@prevent-override
         with:
           dry-run: ${{ inputs.dry-run }}
+          force: ${{ inputs.force }}
       - uses: gap-actions/update-gh-pages@v1
-        if: ${{ inputs.dry-run }}
+        if: ${{ !inputs.dry-run }}
