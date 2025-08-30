@@ -25,6 +25,17 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         with:
           extra-pkgs-to-install: 'pari'
+
+      - name: "Install pari (windows)"
+        shell: bash
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          wget https://pari.math.u-bordeaux.fr/pub/pari/unix/pari-2.17.2.tar.gz -O pari.tar.gz
+          tar xzf pari.tar.gz
+          cd pari-*
+          ./Configure
+          make
+          make install
           
       - name: "Install pari (ubuntu)"
         shell: bash
